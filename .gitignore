@@ -1,0 +1,16 @@
+# Ignore latex generated files
+*.toc
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+*.swp
+*.bcf
+*.nav
+*.snm
+*.run.xml
+*.spl
+# Ignore PDF
+*.pdf
