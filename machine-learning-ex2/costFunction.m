@@ -23,8 +23,9 @@ grad = zeros(size(theta));
 % Compute the guess of the current hypothesis
 hx = sigmoid(X * theta);
 one_m = ones(m, 1);
-
+% Compute the cost
 J = - sum(y .* log(hx) + (one_m - y) .* log(one_m - hx)) / m;
+% Compute the gradient
 grad = X' * (hx - y) / m;
 
 % =============================================================
