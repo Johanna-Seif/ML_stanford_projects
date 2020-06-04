@@ -7,7 +7,7 @@ function [J, grad] = costFunction(theta, X, y)
 % Initialize some useful values
 m = length(y); % number of training examples
 
-% You need to return the following variables correctly 
+% You need to return the following variables correctly
 J = 0;
 grad = zeros(size(theta));
 
@@ -20,12 +20,12 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
+% Compute the guess of the current hypothesis
+hx = sigmoid(X * theta);
+one_m = ones(m, 1);
 
-
-
-
-
-
+J = - sum(y .* log(hx) + (one_m - y) .* log(one_m - hx)) / m;
+grad = X' * (hx - y) / m;
 
 % =============================================================
 
