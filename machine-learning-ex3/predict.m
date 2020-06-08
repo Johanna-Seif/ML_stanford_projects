@@ -5,14 +5,15 @@ function p = predict(Theta1, Theta2, X)
 
 % Useful values
 m = size(X, 1);
+n = size(X, 2);
 num_labels = size(Theta2, 1);
 
-% You need to return the following variables correctly 
+% You need to return the following variables correctly
 p = zeros(size(X, 1), 1);
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Complete the following code to make predictions using
-%               your learned neural network. You should set p to a 
+%               your learned neural network. You should set p to a
 %               vector containing labels between 1 to num_labels.
 %
 % Hint: The max function might come in useful. In particular, the max
@@ -21,15 +22,20 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+% Add ones to the X data matrix
+X = [ones(m, 1) X];
 
+% Computing first layer image
+A2 = sigmoid(Theta1 * X');
+A2 = [ones(1, m); A2];
 
+% Computing second layer image
+A3 = sigmoid(Theta2 * A2);
+[max, max_index] = max(A3);
 
-
-
-
-
+% In A3, features are in column, so we transpose
+p = max_index';
 
 % =========================================================================
-
 
 end
