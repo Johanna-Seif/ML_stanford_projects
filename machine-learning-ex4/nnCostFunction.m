@@ -39,11 +39,13 @@ nb_output = size(Theta2, 1);
 %         computed in ex4.m
 
 % Adding the bias to X
-X = [ones(m, 1) X];
+A1 = [ones(m, 1) X]';
 % In the following each column corresponds to one data
-A2 = sigmoid(Theta1 * X'); % Computing the second second layer in vectorial
+Z2 = Theta1 * A1;
+A2 = sigmoid(Z2); % Computing the second second layer in vectorial
 A2 = [ones(1, m); A2]; % Adding the bias
-h_X = sigmoid(Theta2 * A2); % Computing the last second layer in vectorial
+Z3 = Theta2 * A2;
+h_X = sigmoid(Z3); % Computing the last second layer in vectorial
 % h_X(:, mu) is one input of the NN
 
 % Transform y into vectors,
@@ -78,7 +80,29 @@ J = J + lambda * regularized_term / (2 * m);
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the
 %               first time.
-%
+
+% Computation of the error rate for each data
+for t = 1:m
+  % Extracting info from forward propagation.
+  a3 = h_X(:, t);   % Size  10 * 1
+  a2 = A2(:, t);    % Size  26 * 1
+  a1 = A1(:, t);    % Size 401 * 1
+  y = y_vect(:, t); % Size  10 * 1
+
+  % Computing errors
+  delta3 = a3 - y;          % Size 10 * 1
+  delta2 = Theta2' * delta3 .* a2 .* (1 - a2);
+  delta2 = delta2(2:end);   % Size 25 * 1
+
+  % Accumulate gradient
+  Theta1_grad += delta2 * a1';
+  Theta2_grad += delta3 * a2';
+
+end
+
+Theta1_grad = Theta1_grad / m;
+Theta2_grad = Theta2_grad / m;
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -93,6 +117,5 @@ J = J + lambda * regularized_term / (2 * m);
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
 
 end
